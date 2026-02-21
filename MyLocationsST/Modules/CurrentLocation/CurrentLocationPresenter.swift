@@ -32,6 +32,7 @@ final class CurrentLocationPresenter: NSObject, CurrentLocationPresenterProtocol
     private let locationManager = CLLocationManager()
     private let geocoder = CLGeocoder()
     private var currentLocation: CLLocation?
+    private var currentAddress: String?
     private var state: CurrentLocationState = .idle {
         didSet {
             switch state {
@@ -43,9 +44,7 @@ final class CurrentLocationPresenter: NSObject, CurrentLocationPresenterProtocol
             case .result(let latitude, let longitude, let city):
                 view?.hideStatus()
                 view?.showCoordinates(latitude: latitude, longitude: longitude)
-                if let city = city {
-                    view?.showCity(city)
-                }
+                view?.showCity(currentAddress ?? city ?? "")
                 view?.showTagLocationButton()
             case .error(let message):
                 view?.showStatus(message)
@@ -104,13 +103,29 @@ final class CurrentLocationPresenter: NSObject, CurrentLocationPresenterProtocol
         
         geocoder.reverseGeocodeLocation(location) { [weak self ] placemarks, error in
             guard let self = self else { return }
-            if let city = placemarks?.first?.locality, !city.isEmpty {
-                DispatchQueue.main.async {
-                    self.state = .result(latitude: latitude, longitude: longitude, city: city)
-                }
+            guard let placemark = placemarks?.first else { return }
+
+            let city = placemark.locality
+
+            let addressParts = [
+                placemark.name,
+                placemark.thoroughfare,
+                placemark.subThoroughfare,
+                placemark.locality,
+                placemark.administrativeArea,
+                placemark.postalCode,
+                placemark.country
+            ]
+            let addressString = addressParts
+                .compactMap { $0 }
+                .filter { !$0.isEmpty }
+                .joined(separator: ", ")
+
+            DispatchQueue.main.async {
+                self.currentAddress = addressString.isEmpty ? nil : addressString
+                self.state = .result(latitude: latitude, longitude: longitude, city: city)
             }
         }
-        
         locationManager.stopUpdatingLocation()
     }
     
@@ -130,7 +145,8 @@ final class CurrentLocationPresenter: NSObject, CurrentLocationPresenterProtocol
         let item = LocationItem(
             latitude: lat,
             longitude: lon,
-            city: city
+            city: city,
+            address: currentAddress
         )
         
         view?.openTagLocationEditor(with: item, store: store, output: self)

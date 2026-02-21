@@ -53,6 +53,8 @@ final class CurrentLocationViewController: UIViewController, CurrentLocationView
         cityLabel.font = .systemFont(ofSize: 16, weight: .medium)
         cityLabel.textColor = .secondaryLabel
         cityLabel.textAlignment = .left
+        cityLabel.numberOfLines = 0
+        cityLabel.lineBreakMode = .byWordWrapping
         
         view.addSubview(cityLabel)
         

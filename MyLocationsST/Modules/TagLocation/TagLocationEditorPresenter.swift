@@ -29,12 +29,17 @@ final class TagLocationEditorPresenter: TagLocationEditorPresenterProtocol {
     func viewDidLoad() {
         view?.showTitle("Tag Location")
         
-        let latitude = String(format: "%.6f", item.latitude)
-        let longitude = String(format: "%.6f", item.longitude)
+        view?.showCategory(title: item.category.rawValue)
         
-        view?.showLocationInfo(latitude: latitude, longitude: longitude, city: item.city)
+        let lat = String(format: "%.6f", item.latitude)
+        let lon = String(format: "%.6f", item.longitude)
+        let address = item.address ?? ""
+        let date = DateFormatter.localizedString(from: item.createdAt, dateStyle: .medium, timeStyle: .short)
+        
+        view?.showInfo(latitude: lat, longitude: lon, address: address, date: date)
+        view?.showPhoto(fileName: item.photoFileName)
     }
-    
+
     func onSaveTapped(name: String, category: LocationCategory) {
         item.name = name
         item.category = category
@@ -43,5 +48,36 @@ final class TagLocationEditorPresenter: TagLocationEditorPresenterProtocol {
         view?.close { [weak self] in
             self?.output?.tagLocationEditorDidSave()
         }
+    }
+    
+    func onAddPhotoTapped() {
+        view?.showPhotoActionSheet()
+    }
+    
+    func onPhotoSourceSelected(_ source: ImageSource) {
+        view?.showImagePicker(source: source)
+    }
+    
+    func onCategoryTapped() {
+        view?.showCategoryPicker(selected: item.category)
+    }
+    
+    func onCategorySelected(_ category: LocationCategory) {
+        item.category = category
+        view?.showCategory(title: category.rawValue)
+    }
+    
+    func onPhotoPicked(photoFileName: String) {
+        item.photoFileName = photoFileName
+        view?.showPhoto(fileName: photoFileName)
+    }
+    
+}
+
+
+extension TagLocationEditorPresenter: CategoryPickerOutput {
+    func categoryPickerDidSelect(_ category: LocationCategory) {
+        item.category = category
+        view?.showCategory(title: category.rawValue)
     }
 }

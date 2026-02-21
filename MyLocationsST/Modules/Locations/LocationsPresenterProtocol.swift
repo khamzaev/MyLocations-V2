@@ -10,5 +10,5 @@ import Foundation
 protocol LocationsPresenterProtocol: AnyObject {
     func viewDidLoad()
     func viewWillAppear()
-    func deleteItem(at index: Int)
+    func deleteItem(id: UUID)
 }

@@ -11,7 +11,7 @@ final class LocationsViewController: UIViewController {
     
     var presenter: LocationsPresenterProtocol!
     
-    private var items: [LocationItem] = []
+    private var sections: [SectionModel] = []
     
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let emptyLabel = UILabel()
@@ -21,10 +21,11 @@ final class LocationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        presenter.viewDidLoad()
         
         setupTable()
         setupEmptyLabel()
+        
+        presenter.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,7 +37,10 @@ final class LocationsViewController: UIViewController {
     private func setupTable() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(LocationCell.self, forCellReuseIdentifier: LocationCell.reuseId)
         tableView.tableFooterView = UIView()
+        tableView.rowHeight = 72
         
         view.addSubview(tableView)
         
@@ -77,14 +81,22 @@ extension LocationsViewController: LocationsViewProtocol {
     }
     
     func showItems(_ items: [LocationItem]) {
-        self.items = items
+        let grouped = Dictionary(grouping: items) { $0.category }
+        
+        let sortedCategories = grouped.keys.sorted { $0.rawValue < $1.rawValue}
+        
+        self.sections = sortedCategories.map { category in
+            let items = (grouped[category] ?? []).sorted { $0.createdAt > $1.createdAt}
+            return SectionModel(category: category, items: items)
+        }
+        
         emptyLabel.isHidden = true
         tableView.isHidden = false
         tableView.reloadData()
     }
     
     func showEmptyState() {
-        self.items = []
+        sections = []
         tableView.isHidden = true
         emptyLabel.isHidden = false
     }
@@ -92,22 +104,44 @@ extension LocationsViewController: LocationsViewProtocol {
 
 extension LocationsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        items.count
+        sections[section].items.count
     }
     
-    func tableView(_ tableView:UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        
-        let item = items[indexPath.row]
-        cell.textLabel?.text = item.name.isEmpty ? "Unnamed location" : item.name
-        
-        if let city = item.city {
-            cell.detailTextLabel?.text = city
+    func numberOfSections(in tableView: UITableView) -> Int {
+        sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        sections[section].category.rawValue.uppercased()
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: LocationCell.reuseId, for: indexPath) as! LocationCell
+
+        let item = sections[indexPath.section].items[indexPath.row]
+
+        let title = item.name.isEmpty ? "(No Description)" : item.name
+
+        let subtitle: String
+        if let address = item.address, !address.isEmpty {
+            subtitle = address
+        } else if let city = item.city, !city.isEmpty {
+            subtitle = city
         } else {
-            cell.detailTextLabel?.text = String(format: "%.6f, %.6f", item.latitude, item.longitude)
+            subtitle = String(format: "%.6f, %.6f", item.latitude, item.longitude)
         }
-        
+
+        var image: UIImage? = nil
+        if let fileName = item.photoFileName {
+            let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                .appendingPathComponent(fileName)
+            image = UIImage(contentsOfFile: url.path)
+        }
+
+        cell.configure(title: title, subtitle: subtitle, image: image)
         cell.accessoryType = .disclosureIndicator
+
         return cell
     }
 }
@@ -119,7 +153,8 @@ extension LocationsViewController: UITableViewDelegate {
         commit editingStyle: UITableViewCell.EditingStyle,
         forRowAt indexPath: IndexPath) {
             if editingStyle == .delete {
-                presenter?.deleteItem(at: indexPath.row)
+                let item = sections[indexPath.section].items[indexPath.row]
+                presenter.deleteItem(id: item.id)
             }
     }
 }

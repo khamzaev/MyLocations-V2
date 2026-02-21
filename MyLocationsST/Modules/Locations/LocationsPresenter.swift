@@ -30,14 +30,11 @@ final class LocationsPresenter: LocationsPresenterProtocol {
         reload()
     }
     
-    func deleteItem(at index: Int) {
-        guard index < items.count else { return }
-        
-        let item = items[index]
-        store.delete(id: item.id)
-        
+    func deleteItem(id: UUID) {
+        store.delete(id: id)
         reload()
     }
+    
     
     private func reload() {
         items = store.fetchAll()

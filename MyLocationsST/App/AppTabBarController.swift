@@ -8,6 +8,8 @@
 import UIKit
 
 final class AppTabBarController: UITabBarController {
+    
+    
     static func make() -> UITabBarController {
         let store = CoreDataLocationsStore()
         let tabBar = AppTabBarController()
@@ -23,6 +25,8 @@ final class AppTabBarController: UITabBarController {
         mapNav.tabBarItem = UITabBarItem(title: "Map", image: UIImage(systemName: "map"), tag: 2)
         
         tabBar.viewControllers = [currentNav, locationsNav, mapNav]
+         
+        
         return tabBar
     }
 }
