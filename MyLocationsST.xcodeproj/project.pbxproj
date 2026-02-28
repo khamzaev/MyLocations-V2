@@ -34,6 +34,11 @@
 			path = MyLocationsST;
 			sourceTree = "<group>";
 		};
+		F9E3F1EA2F53007C00FF936B /* Screenshots */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Screenshots;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +55,7 @@
 		F9C371B82F216B59002CE5A2 = {
 			isa = PBXGroup;
 			children = (
+				F9E3F1EA2F53007C00FF936B /* Screenshots */,
 				F9C371C32F216B59002CE5A2 /* MyLocationsST */,
 				F9C371C22F216B59002CE5A2 /* Products */,
 				F91767962F4473130099E559 /* README.md */,
@@ -81,6 +87,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				F9C371C32F216B59002CE5A2 /* MyLocationsST */,
+				F9E3F1EA2F53007C00FF936B /* Screenshots */,
 			);
 			name = MyLocationsST;
 			packageProductDependencies = (
