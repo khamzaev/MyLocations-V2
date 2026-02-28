@@ -9,9 +9,9 @@ iOS-приложение для сохранения и управления п�
 
 <div align="center">
 
-<img src="Screenshots/current-location.png" width="300" style="margin: 0 12px;">
-<img src="Screenshots/map.png" width="300" style="margin: 0 12px;">
-<img src="Screenshots/locations.png" width="300" style="margin: 0 12px;">
+<img src="Screenshots/current-location.png" width="250" style="margin: 0 12px;">
+<img src="Screenshots/map.png" width="250" style="margin: 0 12px;">
+<img src="Screenshots/locations.png" width="250" style="margin: 0 12px;">
 
 </div>
 
