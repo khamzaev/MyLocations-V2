@@ -8,7 +8,7 @@
 import Foundation
 
 final class LocationsPresenter: LocationsPresenterProtocol {
-     
+    
     private weak var view: LocationsViewProtocol?
     private let store: LocationsStoreProtocol
     private var items: [LocationItem] = []
@@ -33,6 +33,10 @@ final class LocationsPresenter: LocationsPresenterProtocol {
     func deleteItem(id: UUID) {
         store.delete(id: id)
         reload()
+    }
+    
+    func onLocationSelected(_ item: LocationItem) {
+        view?.openEditor(for: item)
     }
     
     

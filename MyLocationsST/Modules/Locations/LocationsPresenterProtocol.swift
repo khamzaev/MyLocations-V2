@@ -11,4 +11,5 @@ protocol LocationsPresenterProtocol: AnyObject {
     func viewDidLoad()
     func viewWillAppear()
     func deleteItem(id: UUID)
+    func onLocationSelected(_ item: LocationItem)
 }

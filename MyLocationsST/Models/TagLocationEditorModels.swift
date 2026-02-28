@@ -11,3 +11,8 @@ enum ImageSource {
     case camera
     case photoLibrary
 }
+
+enum TagLocationEditorMode {
+    case create
+    case edit
+}

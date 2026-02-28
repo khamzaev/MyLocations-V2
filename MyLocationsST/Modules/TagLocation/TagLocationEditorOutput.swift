@@ -10,3 +10,4 @@ import Foundation
 protocol TagLocationEditorOutput: AnyObject {
     func tagLocationEditorDidSave()
 }
+

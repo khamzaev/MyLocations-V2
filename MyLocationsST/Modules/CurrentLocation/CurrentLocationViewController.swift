@@ -147,7 +147,7 @@ final class CurrentLocationViewController: UIViewController, CurrentLocationView
     }
     
     func openTagLocationEditor(with item: LocationItem, store: LocationsStoreProtocol, output: TagLocationEditorOutput) {
-        let editor = TagLocationEditorAssembly.build(item: item, store: store, output: output)
+        let editor = TagLocationEditorAssembly.buildCreate(item: item, store: store, output: output)
         present(editor, animated: true)
     }
     

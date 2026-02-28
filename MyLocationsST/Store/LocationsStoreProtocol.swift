@@ -11,4 +11,5 @@ protocol LocationsStoreProtocol: AnyObject {
     func fetchAll() -> [LocationItem]
     func save(_ item: LocationItem)
     func delete(id: UUID)
+    func update(_ item: LocationItem)
 }

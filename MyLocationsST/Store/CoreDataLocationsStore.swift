@@ -50,6 +50,28 @@ final class CoreDataLocationsStore: LocationsStoreProtocol {
         }
     }
     
+    func update(_ item: LocationItem) {
+
+        do {
+            let request: NSFetchRequest<CDLocation> = CDLocation.fetchRequest()
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "id == %@", item.id as CVarArg)
+            
+            guard let cd = try context.fetch(request).first else {
+                assertionFailure("Location not found for update")
+                return
+            }
+            cd.name = item.name
+            cd.categoryRaw = item.category.rawValue
+            cd.photoFileName = item.photoFileName
+            
+            try context.save()
+            
+        } catch {
+            print("CoreData update error:", error)
+        }
+    }
+    
     func delete(id: UUID) {
         let request = CDLocation.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)

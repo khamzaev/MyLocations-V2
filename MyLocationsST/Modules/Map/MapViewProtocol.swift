@@ -6,7 +6,13 @@
 //
 
 import Foundation
+import CoreLocation
 
-protocol MapViewProtocol: BaseViewProtocol {
+protocol MapViewProtocol: AnyObject {
     func showTitle(_ text: String)
+    func showLocations(_ locations: [LocationItem])
+    func openEditor(for item: LocationItem)
+    func setUserLocationVisible(_ isVisible: Bool)
+    func setUserTrackingEnabled(_ enabled: Bool)
+    func centerOnUser()
 }

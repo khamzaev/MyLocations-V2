@@ -73,6 +73,7 @@ final class TagLocationEditorViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(DescriptionFieldCell.self, forCellReuseIdentifier: DescriptionFieldCell.reuseId)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         
@@ -198,6 +199,18 @@ extension TagLocationEditorViewController: TagLocationEditorViewProtocol {
             )
     }
     
+    func showDescription(_ text: String) {
+        descriptionText = text
+        
+        let indexPath = IndexPath(row: MainRow.description.rawValue, section: Section.main.rawValue)
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? DescriptionFieldCell {
+            cell.configure(text: text)
+        } else {
+            tableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+    
 }
 
 extension TagLocationEditorViewController: UITableViewDataSource {
@@ -219,24 +232,13 @@ extension TagLocationEditorViewController: UITableViewDataSource {
         case .main:
             switch MainRow(rawValue: indexPath.row)! {
             case .description:
-                let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+                let cell = tableView.dequeueReusableCell(withIdentifier: DescriptionFieldCell.reuseId, for: indexPath) as! DescriptionFieldCell
                 
-                let tf = UITextField()
-                tf.placeholder = "Description"
-                tf.text = descriptionText
-                tf.addTarget(self, action: #selector(descriptionChanged(_:)), for: .editingChanged)
-                tf.translatesAutoresizingMaskIntoConstraints = false
+                cell.configure(text: descriptionText)
                 
-                cell.contentView.addSubview(tf)
+                cell.textField.removeTarget(nil, action: nil, for: .allEvents)
+                cell.textField.addTarget(self, action: #selector(descriptionChanged(_:)), for: .editingChanged)
                 
-                NSLayoutConstraint.activate([
-                    tf.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 8),
-                    tf.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -8),
-                    tf.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 16),
-                    tf.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16)
-                ])
-                
-                cell.selectionStyle = .none
                 return cell
             case .category:
               let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)

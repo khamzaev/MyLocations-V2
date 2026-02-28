@@ -3,4 +3,66 @@
    uuid = "6E6EC040-2E7D-4424-9DBB-DD47AB31008A"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C338CF02-77D5-4CE3-BBD2-5A50F92860C7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyLocationsST/Modules/Locations/LocationsPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10"
+            endingLineNumber = "10"
+            landmarkName = "LocationsPresenter"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "C338CF02-77D5-4CE3-BBD2-5A50F92860C7 - a44fff7c0280cc9e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyLocationsST.LocationsPresenter.deinit"
+                  moduleName = "MyLocationsST.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zh/Documents/XCODE_Projects/MyLocationsST/MyLocationsST/Modules/Locations/LocationsPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "C338CF02-77D5-4CE3-BBD2-5A50F92860C7 - 1fa4f53a673cbb2e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyLocationsST.LocationsPresenter.__isolated_deallocating_deinit"
+                  moduleName = "MyLocationsST.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zh/Documents/XCODE_Projects/MyLocationsST/MyLocationsST/Modules/Locations/LocationsPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "C338CF02-77D5-4CE3-BBD2-5A50F92860C7 - 6d30d9693b8da6f3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyLocationsST.LocationsPresenter.__deallocating_deinit"
+                  moduleName = "MyLocationsST.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zh/Documents/XCODE_Projects/MyLocationsST/MyLocationsST/Modules/Locations/LocationsPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

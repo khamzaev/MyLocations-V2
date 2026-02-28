@@ -10,6 +10,7 @@ import UIKit
 final class LocationsViewController: UIViewController {
     
     var presenter: LocationsPresenterProtocol!
+    var store: LocationsStoreProtocol!
     
     private var sections: [SectionModel] = []
     
@@ -45,10 +46,10 @@ final class LocationsViewController: UIViewController {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -99,6 +100,18 @@ extension LocationsViewController: LocationsViewProtocol {
         sections = []
         tableView.isHidden = true
         emptyLabel.isHidden = false
+    }
+    
+    func openEditor(for item: LocationItem) {
+        let editor = TagLocationEditorAssembly.buildEdit(item: item, store: store, output: self)
+        present(editor, animated: true)
+    }
+}
+
+extension LocationsViewController: TagLocationEditorOutput {
+    func tagLocationEditorDidSave() {
+        dismiss(animated: true)
+        presenter.viewWillAppear()
     }
 }
 
@@ -156,5 +169,12 @@ extension LocationsViewController: UITableViewDelegate {
                 let item = sections[indexPath.section].items[indexPath.row]
                 presenter.deleteItem(id: item.id)
             }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let item = sections[indexPath.section].items[indexPath.row]
+        presenter.onLocationSelected(item)
     }
 }

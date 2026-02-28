@@ -13,6 +13,7 @@ enum LocationsAssembly {
         let vc = LocationsViewController()
         let presenter = LocationsPresenter(view: vc, store: store)
         vc.presenter = presenter
+        vc.store = store
         return UINavigationController(rootViewController: vc)
     }
 }

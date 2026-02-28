@@ -11,4 +11,5 @@ protocol LocationsViewProtocol: BaseViewProtocol {
     func showTitle(_ text: String)
     func showItems(_ items: [LocationItem])
     func showEmptyState()
+    func openEditor(for item: LocationItem)
 }

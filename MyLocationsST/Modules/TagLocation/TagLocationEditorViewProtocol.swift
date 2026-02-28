@@ -17,4 +17,5 @@ protocol TagLocationEditorViewProtocol: AnyObject {
     func showImagePicker(source: ImageSource)
     func showCategoryPicker(selected: LocationCategory)
     func showPhoto(fileName: String?)
+    func showDescription(_ text: String)
 }

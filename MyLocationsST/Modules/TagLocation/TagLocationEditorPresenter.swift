@@ -13,17 +13,20 @@ final class TagLocationEditorPresenter: TagLocationEditorPresenterProtocol {
     private weak var output: TagLocationEditorOutput?
     private let store: LocationsStoreProtocol
     private var item: LocationItem
+    private let mode: TagLocationEditorMode
     
     init(
         view: TagLocationEditorViewProtocol,
         item: LocationItem,
         store: LocationsStoreProtocol,
-        output: TagLocationEditorOutput
+        output: TagLocationEditorOutput,
+        mode: TagLocationEditorMode
     ) {
         self.view = view
         self.item = item
         self.store = store
         self.output = output
+        self.mode = mode
     }
     
     func viewDidLoad() {
@@ -38,13 +41,19 @@ final class TagLocationEditorPresenter: TagLocationEditorPresenterProtocol {
         
         view?.showInfo(latitude: lat, longitude: lon, address: address, date: date)
         view?.showPhoto(fileName: item.photoFileName)
+        view?.showDescription(item.name)
     }
 
     func onSaveTapped(name: String, category: LocationCategory) {
         item.name = name
         item.category = category
         
-        store.save(item)
+        switch mode {
+        case .create:
+            store.save(item)
+        case .edit:
+            store.update(item)
+        }
         view?.close { [weak self] in
             self?.output?.tagLocationEditorDidSave()
         }
