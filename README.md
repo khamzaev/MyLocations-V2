@@ -7,14 +7,13 @@ iOS-приложение для сохранения и управления п�
 
 ## 📱 Screenshots
 
-### Current Location
-![Current Location](Screenshots/current-location.png)
+<div align="center">
 
-### Map
-![Map](Screenshots/map.png)
+<img src="Screenshots/current-location.png" width="300" style="margin: 0 12px;">
+<img src="Screenshots/map.png" width="300" style="margin: 0 12px;">
+<img src="Screenshots/locations.png" width="300" style="margin: 0 12px;">
 
-### Locations List
-![Locations](Screenshots/locations.png)
+</div>
 
  ✨ Функциональность
 
